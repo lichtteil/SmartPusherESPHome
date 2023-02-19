@@ -23,7 +23,7 @@ wifi:
 
 
 # Enable logging
-logger:
+#logger:
 
 
 # Enable Home Assistant API
