@@ -1,0 +1,111 @@
+esphome:
+  name: $devicename
+  platform: ESP32
+  board: nodemcu-32s
+
+
+### I2C ###
+i2c:
+  sda: 21
+  scl: 22
+
+
+### Wifi ###
+wifi:
+  ssid: $wifi_ssid
+  password: $wifi_password
+
+
+### Sensors ###
+sensor:
+  - platform: wifi_signal
+    name: "${devicename} WiFi Signal"
+    update_interval: 30s
+    id: wifi_signal_db
+    entity_category: "diagnostic"
+
+
+### Variables ###
+globals: ##to set default reboot behavior
+  - id: wifi_connection
+    type: bool
+    restore_value: no
+    initial_value: "false"
+
+
+### Intervals ###
+interval:
+  - interval: 10s
+    then:
+      - if:
+          condition:
+            wifi.connected:
+          then:
+            - lambda: |-
+                id(wifi_connection) = true;
+          else:
+            - lambda: |-
+                id(wifi_connection) = false;
+
+
+### Time ###
+time:
+  - platform: homeassistant
+    id: esptime
+
+
+### Fonts ###
+font:
+  - file: 'fonts/OpenSans-Light.ttf'
+    id: font_16
+    size: 16
+
+  - file: 'fonts/OpenSans-Regular.ttf'
+    id: font_44
+    size: 44
+
+  - file: 'fonts/materialdesignicons-webfont.ttf'
+    id: icons_16
+    size: 16
+    glyphs: [
+      "\U000F05A9", #wifi
+      "\U000F05AA", #no wifi
+    ]
+
+
+### Display ###
+display: !include display.yaml
+
+
+### Buttons ###
+binary_sensor:
+  - !include { file: button.yaml, vars: { id: 1, pin: GPIO32 } }
+  - !include { file: button.yaml, vars: { id: 2, pin: GPIO25 } }
+  - !include { file: button.yaml, vars: { id: 3, pin: GPIO27 } }
+  - !include { file: button.yaml, vars: { id: 4, pin: GPIO12 } }
+  - !include { file: button.yaml, vars: { id: 5, pin: GPIO19 } }
+  - !include { file: button.yaml, vars: { id: 6, pin: GPIO5 } }
+  - !include { file: button.yaml, vars: { id: 7, pin: GPIO16 } }
+  - !include { file: button.yaml, vars: { id: 8, pin: GPIO0 } }
+
+
+### LEDs ###
+output:
+  - !include { file: output.yaml, vars: { pin: GPIO33, id: gpio_33 } }
+  - !include { file: output.yaml, vars: { pin: GPIO26, id: gpio_26 } }
+  - !include { file: output.yaml, vars: { pin: GPIO14, id: gpio_14 } }
+  - !include { file: output.yaml, vars: { pin: GPIO13, id: gpio_13 } }
+  - !include { file: output.yaml, vars: { pin: GPIO23, id: gpio_23 } }
+  - !include { file: output.yaml, vars: { pin: GPIO18, id: gpio_18 } }
+  - !include { file: output.yaml, vars: { pin: GPIO17, id: gpio_17 } }
+  - !include { file: output.yaml, vars: { pin: GPIO4, id: gpio_4 } }
+
+light:
+  - !include { file: led.yaml, vars: { id: 1, output: gpio_33 } }
+  - !include { file: led.yaml, vars: { id: 2, output: gpio_26 } }
+  - !include { file: led.yaml, vars: { id: 3, output: gpio_14 } }
+  - !include { file: led.yaml, vars: { id: 4, output: gpio_13 } }
+  - !include { file: led.yaml, vars: { id: 5, output: gpio_23 } }
+  - !include { file: led.yaml, vars: { id: 6, output: gpio_18 } }
+  - !include { file: led.yaml, vars: { id: 7, output: gpio_17 } }
+  - !include { file: led.yaml, vars: { id: 8, output: gpio_4 } }

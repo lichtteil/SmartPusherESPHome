@@ -1,0 +1,36 @@
+substitutions:
+  # devicename needs to be lowercase without special characters
+  devicename: smartpusher
+
+  # This settings are stored in your secrets.yaml
+  wifi_ssid: !secret wifi_ssid
+  wifi_password: !secret wifi_password
+
+
+packages:
+  base: !include common/base.yaml
+
+
+wifi:
+  fast_connect: true
+
+  # Enable fallback hotspot (and captive portal) in case wifi connection fails
+  #ap:
+  #  ssid: !secret ap_ssid
+  #  password: !secret ap_password
+
+#captive_portal:
+
+
+# Enable logging
+logger:
+
+
+# Enable Home Assistant API
+api:
+  password: !secret api_password
+
+
+# Enable Over The Air updates
+ota:
+  password: !secret ota_password

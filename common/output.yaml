@@ -1,0 +1,4 @@
+platform: ledc
+id: ${id}
+pin: ${pin}
+inverted: true

@@ -1,0 +1,81 @@
+platform: gpio
+pin:
+  number: ${pin}
+  mode:
+    input: true
+    pullup: true
+name: Button${id}
+filters:
+  - invert:
+  - delayed_off: 10ms
+
+### Variant with nativ click type triggers (double click might also trigger single click) ###
+# on_click:
+#   - min_length: 10ms
+#     max_length: 350ms
+#     then:
+#       - homeassistant.event:
+#           event: esphome.smartpusher
+#           data:
+#             device: ${devicename}
+#             event: click
+#             button: ${id}
+#   - min_length: 500ms
+#     max_length: 3000ms
+#     then:
+#       - homeassistant.event:
+#           event: esphome.smartpusher
+#           data:
+#             event: long_click
+#             device: ${devicename}
+#             button: ${id}
+
+# on_double_click:
+#   min_length: 10ms
+#   max_length: 350ms
+#   then:
+#     - homeassistant.event:
+#         event: esphome.smartpusher
+#         data:
+#           event: double_click
+#           device: ${devicename}
+#           button: ${id}
+
+
+### Variant with multi click configuration. Timings might need to be tweaked ###
+on_multi_click:
+  - timing:
+      - ON for at most 1s
+      - OFF for at most 1s
+      - ON for 0.1s to 1s
+      - OFF for at least 0.2s
+    then:
+      - homeassistant.event:
+          event: esphome.smartpusher
+          data:
+            event: double_click
+            device: ${devicename}
+            button: ${id}
+      - logger.log: "Double click button ${id}"
+  - timing:
+      - ON for 1s to 3s
+      - OFF for at least 0.5s
+    then:
+      - homeassistant.event:
+          event: esphome.smartpusher
+          data:
+            event: long_click
+            device: ${devicename}
+            button: ${id}
+      - logger.log: "Single long click button ${id}"
+  - timing:
+      - ON for at most 1s
+      - OFF for at least 0.5s
+    then:
+      - homeassistant.event:
+          event: esphome.smartpusher
+          data:
+            device: ${devicename}
+            event: click
+            button: ${id}
+      - logger.log: "Single click button ${id}"

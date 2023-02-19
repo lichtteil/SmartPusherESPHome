@@ -1,0 +1,17 @@
+- platform: ssd1306_i2c
+  model: "SSD1306 128x64"
+  address: 0x3C
+  lambda: |-
+    // Print date in top left corner
+    it.strftime(2, 2, id(font_16), TextAlign::TOP_LEFT, "%a %d.%m.%y", id(esptime).now());
+
+
+    // Print wifi / no-wifi icon in top right corner
+    it.printf(126, 2, id(icons_16), TextAlign::TOP_RIGHT, "%s", id(wifi_connection) ? "\U000F05A9" : "\U000F05AA");
+    // OR
+    // Print wifi signal strength in top right corner
+    //it.printf(126, 2, id(font_16), TextAlign::TOP_RIGHT, "%.0fdB", id(wifi_signal_db).state);
+
+
+    // Print time in HH:MM format
+    it.strftime(2, 62, id(font_44), TextAlign::BASELINE_LEFT, "%H:%M", id(esptime).now());
