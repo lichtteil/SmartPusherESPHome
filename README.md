@@ -2,6 +2,21 @@
 
 This is a proof of concept of a [ESPHome](https://esphome.io/) based firmware for the [SmartPusher](https://github.com/Blueforcer/SmartPusher) hardware.
 
+## Features
+
+- Display shows time, date and wifi connection status
+- Home Assistant shows buttons as binary sensors
+- Home Assistant shows lights as light entities (including some effects)
+- Pressing buttons triggers an event (click, long_click, double_click)
+
+_Missing features:_
+
+- Sending messages to the display
+- Feedback on display when pressing a button
+- Fancy light animations
+- Configuration via web interface
+- Image upload via web interface
+
 
 ## Get started
 - Copy the file `secrets.example.yaml` to `secrets.yaml` and adjust the credentials (e.g. wifi settings)
