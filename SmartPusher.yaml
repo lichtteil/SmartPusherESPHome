@@ -34,3 +34,8 @@ api:
 # Enable Over The Air updates
 ota:
   password: !secret ota_password
+
+
+# Enable basic web interface
+#web_server:
+#  port: 80
